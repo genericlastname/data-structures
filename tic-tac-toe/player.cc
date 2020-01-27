@@ -29,8 +29,17 @@ void Player::add_draw() {
   draws++;
 }
 
-std::string Player::get_name() const {
-  return name;
+std::string Player::get_name(bool full) const {
+  if (full)
+    return name;
+
+  std::string first_name;
+  for (int i = 0; i < name.length(); i++) {
+    if (name[i] == ' ')
+      return first_name;
+    else
+      first_name += name[i];
+  }
 }
 
 void Player::set_name(std::string n) {

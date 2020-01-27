@@ -41,12 +41,12 @@ void Game::reset_board() {
 
 std::string Game::get_record() {
   std::stringstream out;
-  out << p1.get_name() << ": ";
+  out << p1.get_name(true) << ": ";
   out << p1.get_wins() << " wins, ";
   out << p1.get_losses() << " losses, ";
   out << p1.get_draws() << " draws" << std::endl;
 
-  out << p2.get_name() << ": ";
+  out << p2.get_name(true) << ": ";
   out << p2.get_wins() << " wins, ";
   out << p2.get_losses() << " losses, ";
   out << p2.get_draws() << " draws" << std::endl;

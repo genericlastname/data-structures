@@ -18,7 +18,7 @@ public:
   void add_win();
   void add_loss();
   void add_draw();
-  std::string get_name() const;
+  std::string get_name(bool full = false) const;
   void set_name(std::string n);
 };
 

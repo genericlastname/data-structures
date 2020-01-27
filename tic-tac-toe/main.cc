@@ -13,15 +13,15 @@ int main() {
   // Gather player data
   string name1, name2;
   cout << "Enter player 1's name: ";
-  cin >> name1;
+  getline(cin, name1);
   cout << "Enter player 2's name: ";
-  cin >> name2;
+  getline(cin, name2);
   
   // players select their turn order.
   while (true) {
     string input;
     cout << "Which player would like to be X? ";
-    cin >> input;
+    getline(cin, input);
 
     if (input == name1) {
       game->init(name1, name2);
