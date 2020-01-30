@@ -1,5 +1,4 @@
 # HCSC 310 -- Data Structures and Algorithms @ Morehouse College
-### Professor Chung W. Ng
 
 ## Projects
 ### Tic Tac Toe
