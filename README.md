@@ -9,5 +9,5 @@ names, play multiple games, and keep track of their scores.
 
 ### Tic Tac Toe part 2
 
-An expansion on the previous project that allows up to 5 players and supports
-an *m*x**n** board.
+An expansion on the previous project that allows up to 5 players and supports an
+*m*x**n** board.
