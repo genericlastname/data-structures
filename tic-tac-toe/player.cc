@@ -40,6 +40,8 @@ std::string Player::get_name(bool full) const {
     else
       first_name += name[i];
   }
+
+  return name;
 }
 
 void Player::set_name(std::string n) {

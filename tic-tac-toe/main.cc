@@ -20,17 +20,17 @@ int main() {
   // players select their turn order.
   while (true) {
     string input;
-    cout << "Which player would like to be X? ";
+    cout << "Which player would like to be O? ";
     getline(cin, input);
 
     if (input == name1) {
-      game->init(name1, name2);
-      cout << name1 << " is X, " << name2 << " is O" << endl;
+      game->init(name2, name1);
+      cout << name1 << " is O, " << name2 << " is X" << endl;
       break;
     }
     else if (input == name2) {
-      game->init(name2, name1);
-      cout << name2 << " is X, " << name1 << " is O" << endl;
+      game->init(name1, name2);
+      cout << name2 << " is O, " << name1 << " is X" << endl;
       break;
     }
     else {
@@ -73,7 +73,7 @@ int main() {
       string quit;
       cout << game->get_record();
 
-      cout << "Type q to quit> ";
+      cout << "Type q to quit, or <Enter> to continue > ";
       cin >> quit;
       if (quit == "q")
         break;
