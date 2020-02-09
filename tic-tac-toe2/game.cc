@@ -62,23 +62,39 @@ Game::~Game() {
 }
 
 bool Game::check_rows(int player, int row, int col) {
-    // Check xxX
     if (board[row][col-1] == player && board[row][col-2] == player)
         return true;
 
-    // Check Xxx
     if (board[row][col+1] == player && board[row][col+2] == player)
         return true;
 
-    // Check xXx
     if (board[row][col-1] == player && board[row][col+1] == player)
         return true;
 
     return false;
 }
 
+bool Game::check_cols(int player, int row, int col) {
+    // This function requires verification of row and col
+
+    if ((row-1) >= 0 && (row-2) >= 0 &&
+        board[row-1][col] == player && board[row-2][col] == player)
+        return true;
+
+    if ((row+1) < rows && (row+2 < rows) &&
+        board[row+1][col] == player && board[row+2][col] == player)
+        return true;
+
+    if ((row-1) >= 0 && (row+1) < rows &&
+        board[row-1][col] == player && board[row+1][col] == player)
+        return true;
+
+    return false;
+}
+
 bool Game::check_wins(int player, int row, int col) {
-    if (check_rows(player, row, col))
+    if (check_rows(player, row, col) ||
+        check_cols(player, row, col))
         return true;
 
     return false;
