@@ -92,9 +92,30 @@ bool Game::check_cols(int player, int row, int col) {
     return false;
 }
 
+bool Game::check_diagonals(int player, int row, int col) {
+    if ((row-1) >= 0 && (row+1) < rows &&
+        board[row-1][col-1] == player && board[row+1][col+1] == player)
+        return true;
+
+    if ((row-1) >= 0 && (row+1) < rows &&
+        board[row-1][col+1] == player && board[row+1][col-1] == player)
+        return true;
+
+    if ((row-1) >= 0 && (row-2) >= 0 &&
+        board[row-1][col-1] == player && board[row-2][col-2] == player)
+        return true;
+
+    if ((row+1) < rows && (row+2) < rows &&
+        board[row+1][col+1] == player && board[row+2][col+2] == player)
+        return true;
+
+    return false;
+}
+
 bool Game::check_wins(int player, int row, int col) {
     if (check_rows(player, row, col) ||
-        check_cols(player, row, col))
+        check_cols(player, row, col) ||
+        check_diagonals(player, row, col))
         return true;
 
     return false;
@@ -162,6 +183,9 @@ std::string Game::get_name(int player, bool full) {
 }
 
 int Game::make_move(int player, std::string move) {
+    if (move.empty())
+        return 1;
+
     // Convert move to lowercase
     std::transform(move.begin(), move.end(), move.begin(),
         [](unsigned char c){ return std::tolower(c); });
