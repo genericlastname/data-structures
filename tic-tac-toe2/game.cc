@@ -25,15 +25,16 @@ int* Game::decode_move(std::string move) {
     int* pos = new int[2];
 
     // Assume move string is lowercase already
-    pos[0] = (int)move[0] - 97; // row
-    pos[1] = move[1];      // column
+    pos[0] = (int)move[0] - 97;         // row
+    pos[1] = std::stoi(move.substr(1)) - 1; // column
 
+    std::cout << pos[0] << " x " << pos[1] << "\n";
     return pos;
 }
 
 Game::Game() {}
 
-Game::Game(int rows, int cols, int num_of_players) {
+Game::Game(int rows, int cols) {
     this->rows = rows;
     this->cols = cols;
     
@@ -48,7 +49,7 @@ Game::Game(int rows, int cols, int num_of_players) {
     }
 
     // initialize players and scores
-    for (int i = 0; i < num_of_players; i++) {
+    for (int i = 0; i < 5; i++) {
         scores[i] = 0;
     }
 }
@@ -60,7 +61,27 @@ Game::~Game() {
     delete [] board;
 }
 
-int Game::check_wins(int player, int row, int col) {
+bool Game::check_rows(int player, int row, int col) {
+    // Check xxX
+    if (board[row][col-1] == player && board[row][col-2] == player)
+        return true;
+
+    // Check Xxx
+    if (board[row][col+1] == player && board[row][col+2] == player)
+        return true;
+
+    // Check xXx
+    if (board[row][col-1] == player && board[row][col+1] == player)
+        return true;
+
+    return false;
+}
+
+bool Game::check_wins(int player, int row, int col) {
+    if (check_rows(player, row, col))
+        return true;
+
+    return false;
 }
 
 void Game::draw_board() {
@@ -105,18 +126,8 @@ void Game::draw_board() {
     draw_col_labels();
 }
 
-int Game::add_player(std::string name) {
-    if (name.empty() || name == "\n")
-        return 2; // Empty string, done inputting players
-
-    for (int i = 0; i < 5; i++) {
-        if (players[i].empty()) {
-            players[i] = name;
-            return 0;
-        } 
-    }
-
-    return 1; // No more player slots
+void Game::add_player(int num, std::string name) {
+    players[num] = name;
 }
 
 std::string Game::get_name(int player, bool full) {
@@ -148,6 +159,9 @@ int Game::make_move(int player, std::string move) {
     }
     else if (board[row][col] == -1) {
         board[row][col] = player;
+        if (check_wins(player, row, col))
+            return 3;
+
         return 0; // Valid
     }
 

@@ -14,44 +14,61 @@ int main() {
         std::cin >> cols;
     }
     while ((rows < 3 || cols < 3) || (rows > 11 || cols > 16));
-    std::cout << "\n";
+    // std::cout << std::endl;
     
+    Game game(rows, cols);
+
     // Get player names
+    std::cout << "\nEnter done when you are finished entering names.\n";
 
-    Game game(rows, cols, 4);
+    std::cin.ignore();
 
-    game.add_player("Kyle");
-    game.add_player("Chung Ng");
-    game.add_player("Reggie");
+    std::string name;
+    int total = 1;
+    while (name != "done" && total <= 5) {
+        std::cout << "Enter player " << total << "'s name -> ";
+        std::getline(std::cin, name);
 
-    std::cout << game.get_name(1, false) << "\n"
-              << game.get_name(1, true) << "\n";
+        if (name != "done") {
+            game.add_player(total-1, name);
+            total++;
+            std::cout << game.get_name(total-1, true) << "\n";
+        }
+    }
+    total--;
 
-    // Input players
-    // std::cout << "Enter done to finish adding players.\n";
+    // Main game loop
+    std::string input;
+    bool running = true;
+    int current = 0;
+    int games_played = 1;
 
-    // bool cont;
-    // int num = 1;
-    // do {
-    //     std::string name;
-    //     if (num >= 5)
-    //         cont = false;
+    std::cin.ignore();
 
-    //     std::cout << "Enter player " << num << "'s name: -> ";
-    //     std::getline(std::cin, name);
+    while (running) {
+        game.draw_board();
 
-    //     if (name == "done") {
-    //         cont = false;
-    //     }
-    //     else {
-    //         game.add_player(name);
-    //         cont = true;
-    //         num++;
-    //     }
-    // }
-    // while (cont);
+        
+        std::cout << game.get_name(current, false) << "'s turn -> ";
+        std::getline(std::cin, input);
 
-    game.draw_board();
+        switch (game.make_move(current, input)) {
+            case 1: // out of range
+                std::cout << "Please enter a value within range.\n\n";
+                break;
+            case 2: // spot taken
+                std::cout << "That spot is already taken\n\n";
+                break;
+            case 3:
+                std::cout << game.get_name(current, true) << " wins\n";
+            default:
+                current++;
+        }
+
+        // Roll over current
+        if (current == total)
+            current = 0;
+    }
 
     return 0;
 }
