@@ -32,7 +32,7 @@ int* Game::decode_move(std::string move) {
     pos[0] = (int)move[0] - 97;         // row
     pos[1] = std::stoi(move.substr(1)) - 1; // column
 
-    std::cout << pos[0] << " x " << pos[1] << "\n";
+    // std::cout << pos[0] << " x " << pos[1] << "\n";
     return pos;
 }
 
@@ -68,13 +68,16 @@ Game::~Game() {
 }
 
 bool Game::check_rows(int player, int row, int col) {
-    if (board[row][col-1] == player && board[row][col-2] == player)
+    if ((col-1) >= 0 && (col-2) >= 0 &&
+        board[row][col-1] == player && board[row][col-2] == player)
         return true;
 
-    if (board[row][col+1] == player && board[row][col+2] == player)
+    if ((col+1) >= 0 && (col+2) >= 0 &&
+        board[row][col+1] == player && board[row][col+2] == player)
         return true;
 
-    if (board[row][col-1] == player && board[row][col+1] == player)
+    if ((col-1) >= 0 && (col+1) >= 0 &&
+        board[row][col-1] == player && board[row][col+1] == player)
         return true;
 
     return false;
@@ -178,6 +181,14 @@ void Game::draw_board() {
 
     draw_divider();
     draw_col_labels();
+}
+
+void Game::reset_board() {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            board[i][j] = -1;
+        }
+    }
 }
 
 void Game::add_player(int num, std::string name) {

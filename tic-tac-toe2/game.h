@@ -28,6 +28,7 @@ public:
     ~Game();
     bool check_wins(int player, int row, int col);
     void draw_board();
+    void reset_board();
     void add_player(int num, std::string name);
     std::string get_name(int player, bool full);
     int make_move(int player, std::string move);

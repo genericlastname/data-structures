@@ -37,8 +37,6 @@ int main() {
     }
     total--;
 
-    game.draw_scores(total);
-
     // Main game loop
     std::string input;
     bool running = true;
@@ -50,7 +48,6 @@ int main() {
     while (running) {
         game.draw_board();
 
-        
         std::cout << game.get_name(current, false) << "'s turn -> ";
         std::getline(std::cin, input);
 
@@ -61,11 +58,30 @@ int main() {
             case 2: // spot taken
                 std::cout << "That spot is already taken\n\n";
                 break;
-            case 3:
-                std::cout << game.get_name(current, true) << " wins\n";
+            case 3: // winner
+                std::cout << "\n" << game.get_name(current, true) << " wins!\n\n";
+
+                for (int i = 0; i < total; i++) {
+                    if (i == current)
+                        game.add_win(i);
+                    else
+                        game.add_loss(i);
+                }
+
+                current++;
+
+                game.draw_board();
+                game.reset_board();
+                game.draw_scores(total);
+
+                std::cout << "\nWould you like to quit?\n"
+                          << "Type y to exit or any other key to continue. ";
+                std::getline(std::cin, input);
+                if (input == "y")
+                    running = false;
+
                 break;
-            case 4:
-                // Draw
+            case 4: // draw
             default:
                 current++;
         }
