@@ -13,10 +13,14 @@ void Game::draw_col_labels() {
     std::cout << "\n";
 }
 
-void Game::draw_divider() {
+void Game::draw_divider(int length) {
     std::cout << "   ";
     for (int i = 0; i < cols; i++) {
-        std::cout << "--- ";
+        for (int j = 0; j < length; j++) {
+            std::cout << "-";
+        }
+
+        std::cout << " ";
     }
     std::cout << "\n";
 }
@@ -50,7 +54,9 @@ Game::Game(int rows, int cols) {
 
     // initialize players and scores
     for (int i = 0; i < 5; i++) {
-        scores[i] = 0;
+        wins[i] = 0;
+        losses[i] = 0;
+        draws[i] = 0;
     }
 }
 
@@ -110,6 +116,17 @@ bool Game::check_diagonals(int player, int row, int col) {
         return true;
 
     return false;
+}
+
+bool Game::check_draw() {
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < cols; col++) {
+            if (board[row][col] == -1)
+                return false;
+        }
+    }
+
+    return true;
 }
 
 bool Game::check_wins(int player, int row, int col) {
@@ -201,9 +218,50 @@ int Game::make_move(int player, std::string move) {
         board[row][col] = player;
         if (check_wins(player, row, col))
             return 3;
+        else if (check_draw())
+            return 4;
 
         return 0; // Valid
     }
 
     return 2; // Invalid: spot taken
+}
+
+void Game::draw_scores(int total) {
+    std::cout << std::setw(60) << std::right
+              << " ------ ------ ------\n"
+              << std::setw(61) << std::right
+              << "|  WIN | LOSS | DRAW |\n";
+
+    for (int i = 0; i < total; i++) {
+        std::cout << std::setw(60) << std::right
+                  << " ------ ------ ------\n";
+
+        std::cout << std::setw(30) << std::right
+                  << get_name(i, true) << " ";
+
+        std::cout << std::setw(10) << std::right
+                  << "|  " << wins[i] << "  ";
+
+        std::cout << std::setw(4) << std::right
+                  << "|  " << losses[i] << "  ";
+
+        std::cout << std::setw(4) << std::right
+                  << "|  " << draws[i] << "   |\n";
+    }
+
+    std::cout << std::setw(60) << std::right
+              << " ------ ------ ------\n";
+}
+
+void Game::add_win(int player) {
+    wins[player]++;
+}
+
+void Game::add_loss(int player) {
+    losses[player]++;
+}
+
+void Game::add_draw(int player) {
+    draws[player]++;
 }

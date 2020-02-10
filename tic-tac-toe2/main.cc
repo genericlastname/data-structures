@@ -37,6 +37,8 @@ int main() {
     }
     total--;
 
+    game.draw_scores(total);
+
     // Main game loop
     std::string input;
     bool running = true;
@@ -61,6 +63,9 @@ int main() {
                 break;
             case 3:
                 std::cout << game.get_name(current, true) << " wins\n";
+                break;
+            case 4:
+                // Draw
             default:
                 current++;
         }
