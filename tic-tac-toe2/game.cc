@@ -253,7 +253,7 @@ int Game::make_move(int player, std::string move) {
 
 void Game::draw_scores(int total) {
     std::cout << std::setw(60) << std::right
-              << " ------ ------ ------\n"
+              << "\n ------ ------ ------\n"
               << std::setw(61) << std::right
               << "|  WIN | LOSS | DRAW |\n";
 
