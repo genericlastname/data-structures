@@ -32,7 +32,6 @@ int* Game::decode_move(std::string move) {
     pos[0] = (int)move[0] - 97;         // row
     pos[1] = std::stoi(move.substr(1)) - 1; // column
 
-    // std::cout << pos[0] << " x " << pos[1] << "\n";
     return pos;
 }
 
@@ -103,19 +102,33 @@ bool Game::check_cols(int player, int row, int col) {
 
 bool Game::check_diagonals(int player, int row, int col) {
     if ((row-1) >= 0 && (row+1) < rows &&
+        (col-1) >= 0 && (col+1) < cols &&
         board[row-1][col-1] == player && board[row+1][col+1] == player)
         return true;
 
     if ((row-1) >= 0 && (row+1) < rows &&
+        (col-1) >= 0 && (col+1) < cols &&
         board[row-1][col+1] == player && board[row+1][col-1] == player)
         return true;
 
     if ((row-1) >= 0 && (row-2) >= 0 &&
+        (col-1) >= 0 && (col-2) >= 0 &&
         board[row-1][col-1] == player && board[row-2][col-2] == player)
         return true;
 
     if ((row+1) < rows && (row+2) < rows &&
+        (col+1) < cols && (col+2) < cols &&
         board[row+1][col+1] == player && board[row+2][col+2] == player)
+        return true;
+
+    if ((row+1) < rows && (col-1) >= 0 &&
+        (row+2) < rows && (col-2) >= 0 &&
+        board[row+1][col-1] == player && board[row+2][col-2] == player)
+        return true;
+
+    if ((row-1) >= 0 && (col+1) < cols &&
+        (row-2) >= 0 && (col+2) < cols &&
+        board[row-1][col+1] == player && board[row-2][col+2] == player)
         return true;
 
     return false;
@@ -275,4 +288,13 @@ void Game::add_loss(int player) {
 
 void Game::add_draw(int player) {
     draws[player]++;
+}
+
+bool validate_board_size_input(std::string input) {
+    for (int i = 0; i < input.length(); i++) {
+        if (!isdigit(input[i]))
+            return false;
+    }
+
+    return true;
 }

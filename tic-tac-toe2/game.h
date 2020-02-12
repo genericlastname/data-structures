@@ -38,4 +38,6 @@ public:
     void add_draw(int player);
 };
 
+bool validate_board_size_input(std::string input);
+
 #endif
