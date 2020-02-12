@@ -121,9 +121,9 @@ int main() {
                 game.draw_scores(total);
 
                 std::cout << "\nWould you like to quit?\n"
-                          << "Type y to exit or <Enter> to continue. ";
+                          << "Type q to exit or <Enter> to continue. ";
                 std::getline(std::cin, input);
-                if (input == "y")
+                if (input == "q")
                     running = false;
                 else
                     std::cout << "\n";
