@@ -91,7 +91,7 @@ int main() {
                 game.draw_board();
                 game.reset_board();
                 games_played++;
-                std::cout << "Games played: " << games_played << "\n";
+                std::cout << "\nGames played: " << games_played << "\n";
                 game.draw_scores(total);
 
                 std::cout << "\nWould you like to quit?\n"
@@ -117,7 +117,7 @@ int main() {
                 game.draw_board();
                 game.reset_board();
                 games_played++;
-                std::cout << "Games played: " << games_played << "\n";
+                std::cout << "\nGames played: " << games_played << "\n";
                 game.draw_scores(total);
 
                 std::cout << "\nWould you like to quit?\n"
@@ -138,7 +138,7 @@ int main() {
             current = 0;
     }
 
-    std::cout << "Games played: " << games_played << "\n";
+    std::cout << "\nGames played: " << games_played << "\n";
     game.draw_scores(total);
     return 0;
 }

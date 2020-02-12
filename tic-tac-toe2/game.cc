@@ -224,7 +224,9 @@ std::string Game::get_name(int player, bool full) {
 }
 
 int Game::make_move(int player, std::string move) {
-    if (move.empty())
+    if (move.empty() || move.length() < 2)
+        return 1;
+    else if (!isdigit(move[1]))
         return 1;
 
     // Convert move to lowercase
@@ -252,8 +254,9 @@ int Game::make_move(int player, std::string move) {
 }
 
 void Game::draw_scores(int total) {
-    std::cout << std::setw(60) << std::right
-              << "\n ------ ------ ------\n"
+    std::cout << "\n"
+              << std::setw(60) << std::right
+              << " ------ ------ ------\n"
               << std::setw(61) << std::right
               << "|  WIN | LOSS | DRAW |\n";
 
