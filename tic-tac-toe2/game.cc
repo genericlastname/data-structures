@@ -1,5 +1,6 @@
 #include "game.h"
 
+// Draw the A, B, C, ... column labels for the board.
 void Game::draw_col_labels() {
     std::cout << "    ";
     for (int i = 1; i <= cols; i++) {
@@ -13,6 +14,7 @@ void Game::draw_col_labels() {
     std::cout << "\n";
 }
 
+// Draws the horizontal divider lines for the board.
 void Game::draw_divider(int length) {
     std::cout << "   ";
     for (int i = 0; i < cols; i++) {
@@ -25,6 +27,7 @@ void Game::draw_divider(int length) {
     std::cout << "\n";
 }
 
+// Translates alphanumeric move input (e.g. a2 or B5) into a 2D int position array.
 int* Game::decode_move(std::string move) {
     int* pos = new int[2];
 
@@ -37,6 +40,7 @@ int* Game::decode_move(std::string move) {
 
 Game::Game() {}
 
+// Initialize the Game, including board size, player names, and scores.
 Game::Game(int rows, int cols) {
     this->rows = rows;
     this->cols = cols;
@@ -66,6 +70,7 @@ Game::~Game() {
     delete [] board;
 }
 
+// Takes in the player number, row, and col of the last move and checks for horizontal wins.
 bool Game::check_rows(int player, int row, int col) {
     if ((col-1) >= 0 && (col-2) >= 0 &&
         board[row][col-1] == player && board[row][col-2] == player)
@@ -82,6 +87,7 @@ bool Game::check_rows(int player, int row, int col) {
     return false;
 }
 
+// Takes in the player number, row, and col of the last move and checks for vertical wins.
 bool Game::check_cols(int player, int row, int col) {
     // This function requires verification of row and col
 
@@ -100,6 +106,7 @@ bool Game::check_cols(int player, int row, int col) {
     return false;
 }
 
+// Takes in the player number, row, and col of the last move and checks for diagonal wins.
 bool Game::check_diagonals(int player, int row, int col) {
     if ((row-1) >= 0 && (row+1) < rows &&
         (col-1) >= 0 && (col+1) < cols &&
@@ -134,6 +141,7 @@ bool Game::check_diagonals(int player, int row, int col) {
     return false;
 }
 
+// Loops through the whole board and checks for draw conditions.
 bool Game::check_draw() {
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < cols; col++) {
@@ -145,6 +153,7 @@ bool Game::check_draw() {
     return true;
 }
 
+// Checks horizontal, vertical, and diagonal wins.
 bool Game::check_wins(int player, int row, int col) {
     if (check_rows(player, row, col) ||
         check_cols(player, row, col) ||
@@ -154,6 +163,7 @@ bool Game::check_wins(int player, int row, int col) {
     return false;
 }
 
+// Draws the board with labels and player moves.
 void Game::draw_board() {
     char alpha[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K' };
 
@@ -167,6 +177,7 @@ void Game::draw_board() {
         for (int col = 0; col < cols; col++) {
             std::cout << "| ";
             switch (board[row][col]) {
+
                 case 0:
                     std::cout << "a";
                     break;
@@ -196,6 +207,7 @@ void Game::draw_board() {
     draw_col_labels();
 }
 
+// Clears the board.
 void Game::reset_board() {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -204,10 +216,12 @@ void Game::reset_board() {
     }
 }
 
+// Set the specified player's name.
 void Game::add_player(int num, std::string name) {
     players[num] = name;
 }
 
+// Take in player number and return full or first name.
 std::string Game::get_name(int player, bool full) {
     if (full)
         return players[player];
@@ -223,6 +237,7 @@ std::string Game::get_name(int player, bool full) {
     return players[player];
 }
 
+// Take in a player and move string and update board accordingly.
 int Game::make_move(int player, std::string move) {
     if (move.empty() || move.length() < 2)
         return 1;
@@ -253,6 +268,7 @@ int Game::make_move(int player, std::string move) {
     return 2; // Invalid: spot taken
 }
 
+// Take in number of players and draw a right aligned scoreboard.
 void Game::draw_scores(int total) {
     std::cout << "\n"
               << std::setw(60) << std::right
@@ -281,18 +297,22 @@ void Game::draw_scores(int total) {
               << " ------ ------ ------\n";
 }
 
+// Takes in a player number and adds a win.
 void Game::add_win(int player) {
     wins[player]++;
 }
 
+// Takes in a player number and adds a loss.
 void Game::add_loss(int player) {
     losses[player]++;
 }
 
+// Takes in a player number and adds a draw.
 void Game::add_draw(int player) {
     draws[player]++;
 }
 
+// Makes sure the board size input is only numbers
 bool validate_board_size_input(std::string input) {
     for (int i = 0; i < input.length(); i++) {
         if (!isdigit(input[i]))
