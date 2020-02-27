@@ -11,19 +11,24 @@ int main() {
         std::cout << "The board should be no smaller than 3x3 and no larger than 11x16\n\n";
         std::cout << "Enter the number of rows    -> ";
         std::cin >> row_str;
-        std::cout << "Enter the number of columns -> ";
-        std::cin >> col_str;
-
-        // Check rows and cols
-        if (validate_board_size_input(row_str) &&
-            validate_board_size_input(col_str)) {
-                rows = std::stoi(row_str);
-                cols = std::stoi(col_str);
+        if (validate_board_size_input(row_str)) {
+            rows = std::stoi(row_str);
         }
         else {
             rows = 0;
+            std::cout << "\nEnter numbers only.\n\n";
+            continue;
+        }
+
+        std::cout << "Enter the number of columns -> ";
+        std::cin >> col_str;
+        if (validate_board_size_input(col_str)) {
+            cols = std::stoi(col_str);
+        }
+        else {
             cols = 0;
             std::cout << "\nEnter numbers only.\n\n";
+            continue;
         }
     }
     while ((rows < 3 || cols < 3) || (rows > 11 || cols > 16));
