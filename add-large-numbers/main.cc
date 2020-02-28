@@ -45,7 +45,9 @@ int main() {
         }
     }
 
+    cout << endl;
     prettyprint_add(nums, size);
+    prettyprint_multiply(nums, size);
 
     return 0;
 }

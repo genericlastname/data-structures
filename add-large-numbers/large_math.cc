@@ -105,7 +105,6 @@ string* multiply_two(string s1, string s2) {
 
     for (int i = shorter.length() - 1; i >= 0; i--) {
         int carry = 0;
-        int place = 1;
         string prod;
 
         for (int j = longer.length() -1; j >= 0; j--) {
@@ -130,18 +129,14 @@ string* multiply_two(string s1, string s2) {
 // Print out all numbers in nums and sum.
 // ============================================================================
 void prettyprint_add(string* nums, int size) {
-    int max = 0;
     int width;
 
     // Find longest number string.
     for (int i = 0; i < size; i++) {
         if (nums[i].length() > size)
-            max = nums[i].length();
+            width = nums[i].length() + 4;
     }
 
-    width = max + 4;
-
-    cout << endl;
     for (int j = 0; j < size; j++) {
         if (j == (size - 1)) {
             cout << "+> ";
@@ -153,5 +148,32 @@ void prettyprint_add(string* nums, int size) {
     }
 
     draw_divider(width);
-    cout << setw(width) << right << add_all(nums, size) << endl;
+    cout << setw(width) << right << add_all(nums, size) << endl << endl;
+}
+
+// ============================================================================
+// 
+// ============================================================================
+void prettyprint_multiply(string* nums, int size) {
+    int place = (int)pow((double)10, (double)size - 1.0);
+    int width;
+    string first = nums[0];
+    string last = nums[size-1];
+    string* products;
+
+    width = (first.length() > last.length()) ? first.length() + 4 : last.length() + 4;
+
+    cout << setw(width) << right << last << endl;
+    cout << "*> ";
+    cout << setw(width - 3) << right << first << endl;
+    draw_divider(width);
+
+    products = multiply_two(first, last);
+    for (int i = 0; i < size; i++) {
+        int temp = stoi(products[i]);
+        temp = temp * place;
+        place = place / 10;
+        products[i] = to_string(temp);
+    }
+    prettyprint_add(products, last.length());
 }
