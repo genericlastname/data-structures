@@ -96,6 +96,37 @@ string add_all(string* nums, int size) {
 }
 
 // ============================================================================
+// Multiply two number strings together and return the result.
+// ============================================================================
+string* multiply_two(string s1, string s2) {
+    string shorter = (s1.length() < s2.length()) ? s1 : s2;
+    string longer = (s1.length() > s2.length()) ? s1 : s2;
+    string* products = new string[shorter.length()];
+
+    for (int i = shorter.length() - 1; i >= 0; i--) {
+        int carry = 0;
+        int place = 1;
+        string prod;
+
+        for (int j = longer.length() -1; j >= 0; j--) {
+            int n = (shorter[i] - '0') * (longer[j] - '0') + carry;
+            prod.push_back((n % 10) + '0');
+            carry = n / 10;
+            // cout << prod << endl;
+        }
+
+        if (carry)
+            prod.push_back(carry + '0');
+
+        reverse_str(prod);
+
+        products[i] = prod;
+    }
+
+    return products;
+}
+
+// ============================================================================
 // Print out all numbers in nums and sum.
 // ============================================================================
 void prettyprint_add(string* nums, int size) {
