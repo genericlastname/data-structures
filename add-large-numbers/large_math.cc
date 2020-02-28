@@ -5,10 +5,20 @@ using namespace std;
 #define MAX_NUMS 11
 
 // ============================================================================
+// Draw a horizontal bar.
+// ============================================================================
+void draw_divider(int length) {
+    for (int i = 0; i < length; i++) {
+        cout << "-";
+    }
+    cout << endl;
+}
+
+// ============================================================================
 // Return true if the string is a valid (according to specs) number.
 // ============================================================================
 bool validate_number(string s) {
-    if (s.length() >= MAX_DIGITS)
+    if (s.length() > MAX_DIGITS || s.empty())
         return false;
 
     for (int i = 0; i < s.length(); i++) {
@@ -72,6 +82,9 @@ string add_two(string s1, string s2) {
     return str;
 }
 
+// ============================================================================
+// Add together all numbers in an array.
+// ============================================================================
 string add_all(string* nums, int size) {
     string sum = nums[0];
 
@@ -80,4 +93,34 @@ string add_all(string* nums, int size) {
     }
 
     return sum;
+}
+
+// ============================================================================
+// Print out all numbers in nums and sum.
+// ============================================================================
+void prettyprint_add(string* nums, int size) {
+    int max = 0;
+    int width;
+
+    // Find longest number string.
+    for (int i = 0; i < size; i++) {
+        if (nums[i].length() > size)
+            max = nums[i].length();
+    }
+
+    width = max + 4;
+
+    cout << endl;
+    for (int j = 0; j < size; j++) {
+        if (j == (size - 1)) {
+            cout << "+> ";
+            cout << setw(width - 3) << right << nums[j] << endl;
+        }
+        else {
+            cout << setw(width) << right << nums[j] << endl;
+        }
+    }
+
+    draw_divider(width);
+    cout << setw(width) << right << add_all(nums, size) << endl;
 }

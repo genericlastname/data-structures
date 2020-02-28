@@ -19,10 +19,15 @@ int main() {
                 nums = new string[size];
                 cont = true;
             }
+            else {
+                cout << "Input should be a number from 2 to 11" << endl;
+            }
+        }
+        else {
+            cout << "Input should be a number from 2 to 11" << endl;
         }
     }
 
-    cout << size << endl;
     for (int i = 0; i < size; i++) {
         cont = false;
 
@@ -31,12 +36,16 @@ int main() {
             getline(cin, input);
 
             if (validate_number(input)) {
-                int n = stoi(input);
-                nums[i] = n;
+                nums[i] = input;
                 cont = true;
+            }
+            else {
+                cout << "Make sure the input is a number no more than 14 digits long" << endl;
             }
         }
     }
+
+    prettyprint_add(nums, size);
 
     return 0;
 }
