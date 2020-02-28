@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-c -Wall -g --std=c++11
+CFLAGS=-c -Wall -g
 SRC=$(wildcard *.cc)
 OBJS=$(SRC:.cc=.o)
 EXE=nums

@@ -11,4 +11,6 @@ void reverse_str(string& s);
 
 string add_two(string s1, string s2);
 
+string add_all(string* nums, int size);
+
 #endif

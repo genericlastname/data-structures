@@ -1,12 +1,14 @@
-#include <string>
 #include "large_math.h"
 using namespace std;
 
+#define MAX_DIGITS 14
+#define MAX_NUMS 11
+
 // ============================================================================
-// Return true if the string is a valid, >14 digit number.
+// Return true if the string is a valid (according to specs) number.
 // ============================================================================
 bool validate_number(string s) {
-    if (s.length() >= 14)
+    if (s.length() >= MAX_DIGITS)
         return false;
 
     for (int i = 0; i < s.length(); i++) {
@@ -68,4 +70,14 @@ string add_two(string s1, string s2) {
     reverse_str(str);
 
     return str;
+}
+
+string add_all(string* nums, int size) {
+    string sum = nums[0];
+
+    for (int i = 1; i < size; i++) {
+        sum = add_two(sum, nums[i]);
+    }
+
+    return sum;
 }
