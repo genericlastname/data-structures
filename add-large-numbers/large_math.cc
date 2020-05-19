@@ -46,40 +46,32 @@ void reverse_str(string& s) {
 // Add two number strings together.
 // ============================================================================
 string add_two(string s1, string s2) {
-    int max = (s1.length() < s2.length()) ? s1.length() : s2.length();
-    string str = "";
+	string result = "";
 
-    reverse_str(s1);
-    reverse_str(s2);
+	if (s1.length() > s2.length())
+		swap(s1, s2);
 
-    int carry = 0;
-    for (int i = 0; i < max; i++) {
-        int sum = (s1[i] - '0') + (s2[i] - '0') + carry;
-        str.push_back((sum % 10) + '0');
-        carry = sum / 10;
-    }
+	reverse_str(s1);
+	reverse_str(s2);
 
-    if (s1.length() < s2.length()) {
-        for (int i = s1.length(); i < s2.length(); i++) {
-            int sum = (s2[i] - '0') + carry;
-            str.push_back((sum % 10) + '0');
-            carry = sum / 10;
-        }
-    }
-    else {
-        for (int i = s2.length(); i < s1.length(); i++) {
-            int sum = (s1[i] - '0') + carry;
-            str.push_back((sum % 10) + '0');
-            carry = sum / 10;
-        }
-    }
+	int carry = 0;
+	for (int i=0; i < s1.length(); i++) {
+		int sum = ((s1[i]-'0') + (s2[i]-'0') + carry);
+		result.push_back(sum % 10 + '0');
+		carry = sum / 10;
+	}
 
-    if (carry)
-        str.push_back(carry + '0');
+	for (int i = s1.length(); i < s2.length(); i++) {
+		int sum = (s2[i]-'0' + carry);
+		result.push_back(sum % 10 + '0');
+		carry = sum / 10;
+	}
 
-    reverse_str(str);
+	if (carry)
+		result.push_back(carry+'0');
 
-    return str;
+	reverse_str(result);
+	return result;
 }
 
 // ============================================================================
@@ -98,82 +90,100 @@ string add_all(string* nums, int size) {
 // ============================================================================
 // Multiply two number strings together and return the result.
 // ============================================================================
-string* multiply_two(string s1, string s2) {
-    string shorter = (s1.length() < s2.length()) ? s1 : s2;
-    string longer = (s1.length() > s2.length()) ? s1 : s2;
-    string* products = new string[shorter.length()];
+string multiply_two(string s1, string s2) {
+	// s2 is the longest
+	if (s1.length() > s2.length())
+		swap(s1, s2);
+	int max_length = s2.length();
 
-    for (int i = shorter.length() - 1; i >= 0; i--) {
-        int carry = 0;
-        string prod;
+	string* products = new string[max_length];
+	int count = 0;
+	int carry = 0;
 
-        for (int j = longer.length() -1; j >= 0; j--) {
-            int n = (shorter[i] - '0') * (longer[j] - '0') + carry;
-            prod.push_back((n % 10) + '0');
-            carry = n / 10;
-            // cout << prod << endl;
-        }
+	reverse_str(s1);
+	reverse_str(s2);
 
-        if (carry)
-            prod.push_back(carry + '0');
+	for (int i = 0; i < s1.length(); i++) {
+		// push back the right amount of zeros
+		for (int x = 0; x < count; x++) {
+			products[count].append("0");
+		}
 
-        reverse_str(prod);
+		for (int j = 0; j < s2.length(); j++) {
+			int p = (s1[i]-'0') * (s2[j]-'0') + carry;
+			products[count].push_back((p % 10)+'0');
+			carry = p / 10;
+		}
+		count++;
+	}
 
-        products[i] = prod;
-    }
+	for (int i = 0; i < max_length; i++) {
+		reverse_str(products[i]);
+	}
+	products[count] = to_string(carry);
 
-    return products;
+	return add_all(products, count);
+}
+
+// ============================================================================
+// Multiply together all numbers in an array.
+// ============================================================================
+string multiply_all(string* nums, int size) {
+	string product;
+
+	for (int i = 1; i < size; i++) {
+		product = multiply_two(product, nums[i]);
+	}
+
+	return product;
 }
 
 // ============================================================================
 // Print out all numbers in nums and sum.
 // ============================================================================
 void prettyprint_add(string* nums, int size) {
-    int width;
+	int end = size - 1;
+	int width = 0;
+	string sum = add_all(nums, size);
 
-    // Find longest number string.
-    for (int i = 0; i < size; i++) {
-        if (nums[i].length() > size)
-            width = nums[i].length() + 4;
-    }
+	width = sum.length() + 2;
 
-    for (int j = 0; j < size; j++) {
-        if (j == (size - 1)) {
-            cout << "+> ";
-            cout << setw(width - 3) << right << nums[j] << endl;
-        }
-        else {
-            cout << setw(width) << right << nums[j] << endl;
-        }
-    }
-
-    draw_divider(width);
-    cout << setw(width) << right << add_all(nums, size) << endl << endl;
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < (width - nums[i].length()); j++) {
+			if (i == end && j == 0) {
+				cout << "+";
+			}
+			else {
+				cout << " ";
+			}
+		}
+		cout << nums[i] << endl;
+	}
+	draw_divider(width);
+	cout << "  " << sum << endl;
 }
 
 // ============================================================================
-// 
+// Print out all numbers in nums and the product.
 // ============================================================================
 void prettyprint_multiply(string* nums, int size) {
-    int place = (int)pow((double)10, (double)size - 1.0);
-    int width;
-    string first = nums[0];
-    string last = nums[size-1];
-    string* products;
+	int end = size - 1;
+	int width = 0;
+	string product = multiply_all(nums, size);
 
-    width = (first.length() > last.length()) ? first.length() + 4 : last.length() + 4;
+	width = product.length() + 2;
 
-    cout << setw(width) << right << last << endl;
-    cout << "*> ";
-    cout << setw(width - 3) << right << first << endl;
-    draw_divider(width);
-
-    products = multiply_two(first, last);
-    for (int i = 0; i < size; i++) {
-        int temp = stoi(products[i]);
-        temp = temp * place;
-        place = place / 10;
-        products[i] = to_string(temp);
-    }
-    prettyprint_add(products, last.length());
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < (width - nums[i].length()); j++) {
+			if (i == end && j == 0) {
+				cout << "x";
+			}
+			else {
+				cout << " ";
+			}
+		}
+		cout << nums[i] << endl;
+	}
+	draw_divider(width);
+	cout << "  " << product << endl;
 }

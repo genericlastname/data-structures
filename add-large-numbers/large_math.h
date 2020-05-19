@@ -17,7 +17,7 @@ string add_two(string s1, string s2);
 
 string add_all(string* nums, int size);
 
-string* multiply_two(string s1, string s2);
+string multiply_two(string s1, string s2);
 
 void prettyprint_add(string* nums, int size);
 

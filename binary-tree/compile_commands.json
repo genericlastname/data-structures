@@ -1,0 +1,15 @@
+[
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-Wall",
+            "-g",
+            "-o",
+            "main.o",
+            "main.cc"
+        ],
+        "directory": "/home/kyle/Projects/school/data-structures/binary-tree",
+        "file": "main.cc"
+    }
+]
