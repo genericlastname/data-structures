@@ -2,7 +2,7 @@ CC=clang++
 CFLAGS=-c -Wall -g
 SRC=$(wildcard *.cc)
 OBJS=$(SRC:.cc=.o)
-EXE=lab1
+EXE=lab2
 
 .PHONY: all clean
 
