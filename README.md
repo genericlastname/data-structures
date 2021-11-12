@@ -1,4 +1,4 @@
-# HCSC 310 -- Data Structures and Algorithms @ Morehouse College
+# HCSC 310 Data Structures and Algorithms
 
 ## Projects
 ### Tic Tac Toe
